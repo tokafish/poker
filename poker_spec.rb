@@ -1,9 +1,6 @@
 require './poker'
 require 'rspec'
 
-# There's a bit more metaprogramming in this spec than is typical to my tastes
-# but I thought it made the specs more concise
-
 describe Hand do
   subject { Hand.new(cards) }
 
@@ -108,14 +105,10 @@ describe Hand do
     end
   end
 
-  # there'd be more tests here, for example:
-
   describe "straights with ace low" do
     subject { Hand.new("Ah 3c 4d 5s 2c") }
 
     it { should be_straight }
     its(:rank) { should == :straight }
   end
-
-  # I'd also be testing high card hands, kicker comparison, etc.
 end
