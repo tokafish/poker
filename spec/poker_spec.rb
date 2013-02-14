@@ -111,4 +111,55 @@ describe Hand do
     it { should be_straight }
     its(:rank) { should == :straight }
   end
+
+  describe "tie breaking" do
+    describe "for straights" do
+      it "is done by highest card" do
+        Hand.new("2s 3d 4s 5c 6h").should be < Hand.new("3c 4d 5s 6d 7h")
+      end
+
+      it "counts aces as low when the straight is a wheel" do
+        Hand.new("2s 3d 4s 5c Ah").should be < Hand.new("3c 4d 5s 6d 7h")
+      end
+
+      describe "for flushes" do
+        it "is done by the highest card" do
+          Hand.new("As Ks 4s 5s 6s").should be < Hand.new("Ac Kc Qc 6c 7c")
+        end
+      end
+
+      describe "for four of a kind" do
+        it "is done by the rank of the quads" do
+          Hand.new("Ks Kd Kc Kh 6s").should be > Hand.new("Qs Qd Qc Qh Ad")
+        end
+
+        it "is done secondarily by the kicker" do
+          Hand.new("Ks Kd Kc Kh 6s").should be > Hand.new("Ks Kd Kc Kh 4s")
+        end
+      end
+
+      describe "for full houses" do
+        it "is done by the rank of the trips primarily" do
+          Hand.new("Ks Kd Kc Qh Qs").should be > Hand.new("Js Jd Jc Ah Ad")
+        end
+
+        it "is done secondarily by the rank of the pair" do
+          Hand.new("Ks Kd Kc Qh Qs").should be > Hand.new("Ks Kd Kc Jh Js")
+        end
+      end
+
+      describe "for trips" do
+        it "is done by the rank of the trips primarily" do
+          Hand.new("Ks Kd Kc Qh Js").should be > Hand.new("Js Jd Jc Ah Kd")
+        end
+
+        it "is done secondarily by the rank of the kickers" do
+          Hand.new("Ks Kd Kc Qh Js").should be > Hand.new("Ks Kd Kc Qh Ts")
+        end
+
+      end
+
+    end
+
+  end
 end

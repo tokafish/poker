@@ -36,6 +36,8 @@ class Card
 end
 
 class Hand
+  include Comparable
+
   attr_reader :cards
 
   RANKINGS = [:royal_flush, :straight_flush, :four_of_a_kind,
@@ -67,7 +69,7 @@ class Hand
   end
 
   def full_house?
-    num_groups == 2 && group_lengths.sort == [2, 3]
+    num_groups == 2 && group_lengths == [3,2]
   end
 
   def three_of_a_kind?
@@ -82,12 +84,25 @@ class Hand
     num_groups == 1 && group_lengths == [2]
   end
 
+  def paired_hand?
+    num_groups > 0
+  end
+
   def high_card?
     true
   end
 
   def kickers
-    cards.sort
+    if low_ace_straight?
+      cards.map(&:as_low_ace).sort
+    elsif full_house?
+      rank_grouped.flatten
+    elsif paired_hand?
+      sorted_pairs = rank_grouped.flatten.sort
+      sorted_pairs << (cards - sorted_pairs)
+    else
+      cards.sort
+    end
   end
 
   def <=>(hand)
@@ -95,18 +110,6 @@ class Hand
     comparison = RANKINGS.index(hand.rank) <=> RANKINGS.index(self.rank)
     comparison = hand.kickers <=> self.kickers if comparison == 0
     comparison
-  end
-
-  def >(hand)
-    (self <=> hand) == 1
-  end
-
-  def <(hand)
-    (self <=> hand) == -1
-  end
-
-  def ==(hand)
-    (self <=> hand) == 0
   end
 
   def rank
@@ -138,7 +141,9 @@ class Hand
   end
 
   def rank_grouped
-    cards.group_by(&:rank).reject { |rank, cards| cards.length == 1 }.values
+    cards.group_by(&:rank).reject { |rank, cards| cards.length == 1 }.values.sort do |group1, group2|
+      group2.length <=> group1.length
+    end
   end
 end
 
