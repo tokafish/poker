@@ -1,4 +1,4 @@
-require './poker'
+require File.join(File.dirname(__FILE__), '..', 'models', 'hand')
 require 'rspec'
 
 describe Hand do
@@ -112,7 +112,7 @@ describe Hand do
     its(:rank) { should == :straight }
   end
 
-  describe "tie breaking" do
+  describe "tie breaking for hands with the same rank" do
     describe "for straights" do
       it "is done by highest card" do
         Hand.new("2s 3d 4s 5c 6h").should be < Hand.new("3c 4d 5s 6d 7h")
@@ -156,10 +156,31 @@ describe Hand do
         it "is done secondarily by the rank of the kickers" do
           Hand.new("Ks Kd Kc Qh Js").should be > Hand.new("Ks Kd Kc Qh Ts")
         end
-
       end
 
-    end
+      describe "for two pairs" do
+        it "is done by the rank of the first pair primarily" do
+          Hand.new("Ks Kd Qc Qh Js").should be > Hand.new("Js Jd Tc Th Kd")
+        end
 
+        it "is done secondarily by the rank of the second pair" do
+          Hand.new("Ks Kd Jc Qh Js").should be > Hand.new("Ks Kd Tc Qh Ts")
+        end
+
+        it "is done tertiarily by the kicker" do
+          Hand.new("Ks Kd Jc Qh Js").should be > Hand.new("Ks Kd Jc 2h Js")
+        end
+      end
+
+      describe "for one pairs" do
+        it "is done by the rank of the pair primarily" do
+          Hand.new("Ks Kd Tc Qh Js").should be > Hand.new("Js Jd 9c Th Kd")
+        end
+
+        it "is done secondarily by the rank of the kickers" do
+          Hand.new("Ks Kd Jc 9h 3s").should be > Hand.new("Ks Kd Jc 8h 2s")
+        end
+      end
+    end
   end
 end
