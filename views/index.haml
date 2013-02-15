@@ -1,0 +1,62 @@
+!!!
+%html
+  %head
+    %title Poker!
+    %meta{:charset => "utf-8"}
+    %link{:rel => "stylesheet", :type => "text/css", :href => "stylesheets/twitter-bootstrap/bootstrap.css"}
+    %link{:rel => "stylesheet", :type => "text/css", :href => "stylesheets/application.css"}
+    %script{:type => "text/javascript", :src => "//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"}
+    %script{:type => "text/javascript", :src => "//ajax.googleapis.com/ajax/libs/angularjs/1.0.4/angular.min.js"}
+    %script{:type => "text/javascript", :src => "//ajax.googleapis.com/ajax/libs/angularjs/1.0.4/angular-sanitize.min.js"}
+    %script{:tyoe => "text/javascript", :src => "//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"}
+    %script{:type => "text/javascript", :src => "javascripts/app.js"}
+  %body#ng-app{"ng-app" => "poker", "ng-controller" => "pokerController"}
+    %br
+    .container-fluid
+      .row-fluid
+        .span2
+          .well.sidebar-nav
+            %ul.nav.nav-list
+              %li.nav-header Players
+              %li{"ng-repeat" => "player in room.players", "ng-class" => "playerClass(player)"}
+                %a{:href => "#"}
+                  %span.name{"ng-bind" => "player.name"}
+        .span6
+          %div{"ng-switch" => "room.state"}
+            %div{"ng-switch-when" => "waiting"}
+              %h3 Waiting for a game to begin
+            %div{"ng-switch-when" => "draw"}
+              %h3
+                Waiting for
+                %span{"ng-bind" => "active_player.name"}
+                to draw
+              .felt.clearfix
+                .card{"ng-repeat" => "card in current_player.hand", "ng-class" => "cardClass(card)"}
+                  .top
+                    %span{"ng-bind" => "cardRank(card)"}
+                    %span{"ng-bind-html" => "cardSuit(card)"}
+                  %h1{"ng-bind-html" => "cardSuit(card)"}
+                  .bottom
+                    %span{"ng-bind-html" => "cardSuit(card)"}
+                    %span{"ng-bind" => "cardRank(card)"}
+
+
+        .span4
+          %a.btn{"ng-click" => "sendCommand('start_hand')", "ng-show" => "room.state == 'waiting' && room.players.length > 1"}
+            Shuffle up and deal!
+          %a.btn.btn-warning{"ng-click" => "sendCommand('cancel_hand')", "ng-show" => "room.state != 'waiting'"}
+            Abort hand!
+
+
+
+    .modal-backdrop.fade.in{"ng-hide" => "current_player"}
+    .modal{"ng-hide" => "current_player"}
+      %form{:style => "margin: 0;"}
+        .modal-header
+          %h3
+            What's your name?
+        .modal-body
+          %input{:type => "text", "ng-model" => "myName", :required => true, :autofocus => true}
+        .modal-footer
+          %input.btn.btn-warning{:type => "submit", :value => "Let's play poker", "ng-click" => "connect()"}
+

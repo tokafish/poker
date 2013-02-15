@@ -1,0 +1,38 @@
+.felt {
+  background-color: green;
+  padding: 20px;
+}
+
+.clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+
+// special thanks to http://htmyell.com/creating-playing-cards-with-css-html/
+
+.red {
+  color: red;
+}
+
+.card {
+  float: left;
+  width: 80px;
+  border: 0px solid black;
+  text-align: center;
+  padding: 10px;
+  margin: 10px;
+  background: #FFF;
+  box-shadow: 1px 1px 3px #000;
+  -moz-box-shadow: 1px 1px 3px #000;
+  -webkit-box-shadow: 1px 1px 3px #000;
+  border-radius:10px;
+  -moz-border-radius:10px;
+  -webkit-border-radius:10px;
+}
+
+.top{ text-align: left; }
+.bottom{ text-align: right; }

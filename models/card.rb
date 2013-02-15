@@ -33,4 +33,8 @@ class Card
   def to_s
     (RANKS.invert[rank] || rank.to_s) + suit
   end
+
+  def as_json
+    { :rank => rank, :suit => suit }
+  end
 end

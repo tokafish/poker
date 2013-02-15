@@ -87,6 +87,10 @@ class Hand
     cards.sort.map(&:to_s).join(" ")
   end
 
+  def as_json
+    cards.map(&:as_json)
+  end
+
   private
 
   def high_ace_straight?
