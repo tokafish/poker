@@ -1,0 +1,15 @@
+.card-eight
+  .corner.top
+    %span.number{"ng-bind" => "cardRank(card)"}
+    %span{"ng-bind-html" => "cardSuit(card)"}
+  %span.suit.top_left{"ng-bind-html" => "cardSuit(card)"}
+  %span.suit.top_right{"ng-bind-html" => "cardSuit(card)"}
+  %span.suit.middle_left{"ng-bind-html" => "cardSuit(card)"}
+  %span.suit.middle_top{"ng-bind-html" => "cardSuit(card)"}
+  %span.suit.middle_right{"ng-bind-html" => "cardSuit(card)"}
+  %span.suit.middle_bottom{"ng-bind-html" => "cardSuit(card)"}
+  %span.suit.bottom_left{"ng-bind-html" => "cardSuit(card)"}
+  %span.suit.bottom_right{"ng-bind-html" => "cardSuit(card)"}
+  .corner.bottom
+    %span.number{"ng-bind" => "cardRank(card)"}
+    %span{"ng-bind-html" => "cardSuit(card)"}

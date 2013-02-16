@@ -38,8 +38,22 @@ controller = ($scope, PokerService) ->
   $scope.playerClass = (player) ->
     if player.id == $scope.room.active_player_id then 'active' else ''
 
+  $scope.cardTemplate = (card) ->
+    "/cards/#{card.rank}.html"
+
+  $scope.cardImage = (card) ->
+    "/img/faces/#{card.rank}/#{card.suit}.png"
+
   $scope.cardClass = (card) ->
-    if card.suit == "h" || card.suit == "d" then "red" else ""
+    switch card.suit
+      when "c"
+        "club"
+      when "h"
+        "heart"
+      when "d"
+        "diamond"
+      when "s"
+        "spade"
 
   $scope.cardRank = (card) ->
     switch card.rank

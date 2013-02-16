@@ -31,16 +31,8 @@
                 %span{"ng-bind" => "active_player.name"}
                 to draw
               .felt.clearfix
-                .card{"ng-repeat" => "card in current_player.hand", "ng-class" => "cardClass(card)"}
-                  .top
-                    %span{"ng-bind" => "cardRank(card)"}
-                    %span{"ng-bind-html" => "cardSuit(card)"}
-                  %h1{"ng-bind-html" => "cardSuit(card)"}
-                  .bottom
-                    %span{"ng-bind-html" => "cardSuit(card)"}
-                    %span{"ng-bind" => "cardRank(card)"}
-
-
+                .card{"ng-repeat" => "card in current_player.hand", "ng-class" => "cardClass(card)", "ng-click" => "selectCard()"}
+                  %div{"ng-include" => "cardTemplate(card)"}
         .span4
           %a.btn{"ng-click" => "sendCommand('start_hand')", "ng-show" => "room.state == 'waiting' && room.players.length > 1"}
             Shuffle up and deal!

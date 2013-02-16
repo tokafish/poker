@@ -12,6 +12,10 @@ class Poker < Sinatra::Base
   get '/' do
     haml :index
   end
+
+  get '/cards/:card.html' do
+    haml(:"cards/#{params[:card]}")
+  end
 end
 
 require 'sass/plugin/rack'
