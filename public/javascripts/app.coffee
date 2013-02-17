@@ -16,8 +16,8 @@
       @socket.onmessage = (mess) =>
         @handleMessage(mess)
 
-    sendMessage: (message) ->
-      console.log "sending message:", message
+    sendCommand: (message) ->
+      console.log "sending command:", message
       @socket.send JSON.stringify(message)
 
     handleMessage: (message) ->
@@ -29,14 +29,29 @@
 
 
 controller = ($scope, PokerService) ->
-  $scope.room = {}
+  $scope.table = {}
   $scope.current_player = null
-  $scope.active_player = null
 
   $scope.connect = -> PokerService.connect $scope.myName
 
   $scope.playerClass = (player) ->
-    if player.id == $scope.room.active_player_id then 'active' else ''
+    ''
+    # if player.id == $scope.table.active_player_id then 'active' else ''
+
+  $scope.drawText = ->
+    return "" unless $scope.table.state == 'draw'
+    return "" unless $scope.current_player.state == "active"
+
+    anyCardSelected = _($scope.current_player.hand).some (card) ->
+      card.selected
+
+    if anyCardSelected
+      "Draw!"
+    else
+      "Stand Pat!"
+
+  $scope.cardClicked = (card) ->
+    card.selected = !card.selected
 
   $scope.cardTemplate = (card) ->
     "/cards/#{card.rank}.html"
@@ -79,22 +94,25 @@ controller = ($scope, PokerService) ->
       when "d"
         "&diams;"
 
-  $scope.roomStatus = ->
-    switch $scope.room.state
+  $scope.tableStatus = ->
+    switch $scope.table.state
       when "waiting"
         "Waiting for hand to begin"
       when "draw"
         "Waiting for #{$scope.activePlayer.name} to draw"
 
-  $scope.sendCommand = (command) ->
-    PokerService.sendMessage command: command
+  $scope.seatedPlayers = ->
+    _($scope.table.players).compact()
+
+  $scope.sendCommand = (command, data) ->
+    PokerService.sendCommand
+      command: command
+      data: data
 
   $scope.$on "update_poker_room", (e, room) ->
-    $scope.room = room
-    $scope.current_player = _($scope.room.players).find (player) ->
-      player.id == $scope.room.current_player_id
-    $scope.active_player = _($scope.room.players).find (player) ->
-      player.id == $scope.room.active_player_id
+    $scope.players = room.players
+    $scope.table = room.table
+    $scope.current_player = room.current_player
 
 controller.$inject = ['$scope', 'PokerService']
 

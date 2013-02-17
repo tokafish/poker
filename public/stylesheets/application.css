@@ -1,7 +1,52 @@
+.table {
+  background-color: black;
+  border-radius: 300px;
+  -moz-border-radius: 300px;
+  -webkit-border-radius: 300px;
+  height: 500px;
+  padding: 25px;
+  margin-bottom: 50px; }
+
 .felt {
   background-color: green;
   padding: 20px;
-  font-size: 7px; }
+  border-radius: 250px;
+  -moz-border-radius: 250px;
+  -webkit-border-radius: 250px;
+  height: 460px;
+  position: relative; }
+
+.chat {
+  background-color: #CCC;
+  margin-bottom: 50px; }
+
+.seat {
+  position: absolute;
+  height: 50px;
+  width: 140px;
+  background-color: white;
+  border: 1px solid black;
+  text-align: center;
+  padding-top: 25px;
+  font-size: 20px; }
+  .seat.one {
+    top: 200px;
+    left: -75px; }
+  .seat.two {
+    top: -50px;
+    left: 200px; }
+  .seat.three {
+    top: -50px;
+    right: 200px; }
+  .seat.four {
+    right: -75px;
+    top: 200px; }
+  .seat.five {
+    right: 200px;
+    bottom: -50px; }
+  .seat.six {
+    left: 200px;
+    bottom: -50px; }
 
 .clearfix:after {
   content: ".";

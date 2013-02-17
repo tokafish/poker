@@ -1,9 +1,9 @@
 require 'em-websocket'
 require 'yajl'
 require 'yajl/json_gem'
-require File.join(File.dirname(__FILE__), 'models', 'poker_room')
+require File.join(File.dirname(__FILE__), 'models', 'table')
 
-class PokerRoomConnection
+class PokerConnection
   attr_accessor :player, :websocket
 
   def initialize(player, websocket)
@@ -16,10 +16,10 @@ class PokerRoomConnection
   end
 end
 
-class PokerRoomManager
+class PokerRoom
   def initialize
     @connections = {}
-    @room = PokerRoom.new
+    @table = Table.new
   end
 
   def start
@@ -31,8 +31,8 @@ class PokerRoomManager
   end
 
   def player_connected!(ws, handshake)
-    player = @room.add_player(handshake.query["name"])
-    connection = PokerRoomConnection.new(player, ws)
+    player = Player.new(:name => handshake.query["name"])
+    connection = PokerConnection.new(player, ws)
     @connections[ws] = connection
 
     update_poker_room
@@ -40,10 +40,10 @@ class PokerRoomManager
 
   def player_disconnected!(ws)
     connection = @connections.delete(ws)
-    @room.remove_player(connection.player)
+    @table.unseat_player(connection.player)
 
-    if @room.playing?
-      @room.cancel_hand
+    if @table.playing?
+      @table.cancel_hand
     end
 
     update_poker_room
@@ -52,19 +52,32 @@ class PokerRoomManager
   def message_received!(ws, json)
     msg  = JSON.parse(json)
 
-    @room.handle_command msg["command"], msg["data"]
+    player = @connections[ws].player
 
-    puts @room.inspect
+    @table.handle_command msg["command"], player, msg["data"]
+
     update_poker_room
   end
 
   def update_poker_room
     @connections.values.each do |connection|
-      connection.send_message :command => :update_poker_room, :data => @room.as_json(connection.player)
+      connection.send_message :command => :update_poker_room, :data => as_json(connection.player)
     end
+  end
+
+  def connected_players
+    @connections.values.map(&:player)
+  end
+
+  def as_json(viewer)
+    {
+      :players => connected_players.map { |p| p.as_json(viewer) },
+      :table => @table.as_json(viewer),
+      :current_player => viewer.as_json(viewer)
+    }
   end
 end
 
 EM.run do
- PokerRoomManager.new.start
+ PokerRoom.new.start
 end

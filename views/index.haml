@@ -5,39 +5,55 @@
     %meta{:charset => "utf-8"}
     %link{:rel => "stylesheet", :type => "text/css", :href => "stylesheets/twitter-bootstrap/bootstrap.css"}
     %link{:rel => "stylesheet", :type => "text/css", :href => "stylesheets/application.css"}
-    %script{:type => "text/javascript", :src => "//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"}
+    %script{:type => "text/javascript", :src => "//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"}\
+    %script{:type => "text/javascript", :src => "/javascripts/jquery.flippy.min.js"}
     %script{:type => "text/javascript", :src => "//ajax.googleapis.com/ajax/libs/angularjs/1.0.4/angular.min.js"}
     %script{:type => "text/javascript", :src => "//ajax.googleapis.com/ajax/libs/angularjs/1.0.4/angular-sanitize.min.js"}
     %script{:tyoe => "text/javascript", :src => "//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"}
-    %script{:type => "text/javascript", :src => "javascripts/app.js"}
+    %script{:type => "text/javascript", :src => "/javascripts/app.js"}
   %body#ng-app{"ng-app" => "poker", "ng-controller" => "pokerController"}
     %br
     .container-fluid
+      .row-fluid{"ng-switch" => "table.state", :style => "text-align: center;"}
+        %div{"ng-switch-when" => "waiting"}
+          %h3 Waiting for a game to begin...
+        %div{"ng-switch-when" => "draw"}
+          %h3
+            Waiting for
+            %span{"ng-bind" => "active_player.name"}
+            to draw
       .row-fluid
-        .span2
-          .well.sidebar-nav
-            %ul.nav.nav-list
-              %li.nav-header Players
-              %li{"ng-repeat" => "player in room.players", "ng-class" => "playerClass(player)"}
-                %a{:href => "#"}
-                  %span.name{"ng-bind" => "player.name"}
-        .span6
-          %div{"ng-switch" => "room.state"}
-            %div{"ng-switch-when" => "waiting"}
-              %h3 Waiting for a game to begin
-            %div{"ng-switch-when" => "draw"}
-              %h3
-                Waiting for
-                %span{"ng-bind" => "active_player.name"}
-                to draw
-              .felt.clearfix
-                .card{"ng-repeat" => "card in current_player.hand", "ng-class" => "cardClass(card)", "ng-click" => "selectCard()"}
-                  %div{"ng-include" => "cardTemplate(card)"}
-        .span4
-          %a.btn{"ng-click" => "sendCommand('start_hand')", "ng-show" => "room.state == 'waiting' && room.players.length > 1"}
+        .span1
+        .span10
+          .table
+            .felt
+              .seat.one{"ng-click" => "sendCommand('choose_seat', 0)", "ng-bind" => "table.players[0].name"}
+              .seat.two{"ng-click" => "sendCommand('choose_seat', 1)", "ng-bind" => "table.players[1].name"}
+              .seat.three{"ng-click" => "sendCommand('choose_seat', 2)", "ng-bind" => "table.players[2].name"}
+              .seat.four{"ng-click" => "sendCommand('choose_seat', 3)", "ng-bind" => "table.players[3].name"}
+              .seat.five{"ng-click" => "sendCommand('choose_seat', 4)", "ng-bind" => "table.players[4].name"}
+              .seat.six{"ng-click" => "sendCommand('choose_seat', 5)", "ng-bind" => "table.players[5].name"}
+
+        .span1
+      .row-fluid{"ng-hide" => "table.state == 'waiting'"}
+        .span1
+        .span10.cards
+          .card{"ng-repeat" => "card in current_player.hand", "ng-class" => "cardClass(card)", "ng-click" => "cardClicked(card)"}
+            %div{"ng-include" => "cardTemplate(card)", "ng-hide" => "card.selected"}
+            .card-back{"ng-show" => "card.selected"}
+              %span.middle_center
+                %img{:src => "img/back.png"}
+        .span1
+      .row-fluid.chat
+        .span12
+          .messages
+          %form{"ng-submit" => "sendChatMessage()"}
+            %input{:type => "text", "ng-model" => "message"}
+      .row-fluid
+        .span12
+          %a.btn.btn-primary{"ng-click" => "sendCommand('start_hand')", "ng-show" => "table.state == 'waiting' && seatedPlayers().length > 1"}
             Shuffle up and deal!
-          %a.btn.btn-warning{"ng-click" => "sendCommand('cancel_hand')", "ng-show" => "room.state != 'waiting'"}
-            Abort hand!
+          %a.btn.btn-primary{"ng-click" => "drawCards()", "ng-show" => "table.state == 'draw' && current_player.state == 'active'", "ng-bind" => "drawText()"}
 
 
 
