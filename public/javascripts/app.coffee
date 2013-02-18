@@ -1,5 +1,27 @@
 @app = angular.module('poker', ['ngSanitize'])
 
+# @app.directive 'pointBoost', ->
+
+#   template: '<div class="point-boost"><span class="points-icon-large star"></span><span class="score"><strong>+{{points}}</strong></span></div>'
+#   scope: true
+#   replace: true
+#   link: (scope, element, attrs) ->
+#     scope.$on 'points:awarded', (e, val) ->
+#       scope.points = val
+
+#       children =  element.children()
+#       star = angular.element(children[0])
+#       points = angular.element(children[1])
+
+#       points.css("visibility", "visible")
+#       points.addClass("bounce-up")
+#       setTimeout(
+#         ->
+#           star.css("visibility", "visible")
+#           star.addClass("bounce-up")
+#         100
+#       )
+
 @app.service 'PokerService',
   class PokerService
     @$inject: ['$rootScope']
@@ -31,75 +53,53 @@
 controller = ($scope, PokerService) ->
   $scope.table = {}
   $scope.current_player = null
+  $scope.messages = []
 
   $scope.connect = -> PokerService.connect $scope.myName
 
-  $scope.playerClass = (player) ->
-    ''
-    # if player.id == $scope.table.active_player_id then 'active' else ''
+  $scope.seatClass = (player) ->
+    if player?.state == "active" then "active" else ""
 
-  $scope.drawText = ->
-    return "" unless $scope.table.state == 'draw'
-    return "" unless $scope.current_player.state == "active"
-
-    anyCardSelected = _($scope.current_player.hand).some (card) ->
-      card.selected
-
-    if anyCardSelected
-      "Draw!"
-    else
-      "Stand Pat!"
-
-  $scope.cardClicked = (card) ->
-    card.selected = !card.selected
+  $scope.playerHand = (player) ->
+    return [] if !player?
+    player.cards
 
   $scope.cardTemplate = (card) ->
-    "/cards/#{card.rank}.html"
+    template = card?.rank || "back"
+    "/cards/#{template}.html"
 
   $scope.cardImage = (card) ->
     "/img/faces/#{card.rank}/#{card.suit}.png"
 
   $scope.cardClass = (card) ->
-    switch card.suit
-      when "c"
-        "club"
-      when "h"
-        "heart"
-      when "d"
-        "diamond"
-      when "s"
-        "spade"
+    switch card?.suit
+      when "c" then "club"
+      when "h" then "heart"
+      when "d" then "diamond"
+      when "s" then "spade"
+      else "back"
 
   $scope.cardRank = (card) ->
     switch card.rank
-      when 11
-        "J"
-      when 12
-        "Q"
-      when 13
-        "K"
-      when 14
-        "A"
-      else
-        card.rank
+      when 11 then "J"
+      when 12 then "Q"
+      when 13 then"K"
+      when 14 then "A"
+      else card.rank
 
   $scope.cardSuit = (card) ->
     switch card.suit
-      when "h"
-        "&hearts;"
-      when "s"
-        "&spades;"
-      when "c"
-        "&clubs;"
-      when "d"
-        "&diams;"
+      when "h" then "&hearts;"
+      when "s" then "&spades;"
+      when "c" then "&clubs;"
+      when "d" then   "&diams;"
 
   $scope.tableStatus = ->
     switch $scope.table.state
       when "waiting"
         "Waiting for hand to begin"
-      when "draw"
-        "Waiting for #{$scope.activePlayer.name} to draw"
+      else
+        "no text"
 
   $scope.seatedPlayers = ->
     _($scope.table.players).compact()
@@ -113,6 +113,9 @@ controller = ($scope, PokerService) ->
     $scope.players = room.players
     $scope.table = room.table
     $scope.current_player = room.current_player
+
+  $scope.$on "broadcast_message", (e, message) ->
+    $scope.messages.push message
 
 controller.$inject = ['$scope', 'PokerService']
 

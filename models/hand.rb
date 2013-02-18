@@ -9,8 +9,12 @@ class Hand
              :full_house, :flush, :straight, :three_of_a_kind,
              :two_pair, :one_pair, :high_card]
 
-  def initialize(str = "")
-    @cards = str.split(" ").map { |s| Card.new(s) }
+  def initialize(cards = "")
+    if cards.is_a? String
+      @cards = cards.split(" ").map { |s| Card.new(s) }
+    elsif cards.is_a? Array
+      @cards = cards
+    end
   end
 
   def royal_flush?
@@ -75,6 +79,16 @@ class Hand
     comparison = RANKINGS.index(hand.rank) <=> RANKINGS.index(self.rank)
     comparison = hand.kickers <=> self.kickers if comparison == 0
     comparison
+  end
+
+  # overriding object equality for use of cards and hands in hashes
+
+  def eql?(hand)
+    cards.all? { |card| hand.cards.include?(card) }
+  end
+
+  def hash
+    cards.hash
   end
 
   def rank

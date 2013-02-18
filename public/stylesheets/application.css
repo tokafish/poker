@@ -20,33 +20,71 @@
   background-color: #CCC;
   margin-bottom: 50px; }
 
-.seat {
-  position: absolute;
-  height: 50px;
-  width: 140px;
-  background-color: white;
-  border: 1px solid black;
-  text-align: center;
-  padding-top: 25px;
-  font-size: 20px; }
-  .seat.one {
+.player {
+  position: absolute; }
+  .player.seat0 {
     top: 200px;
     left: -75px; }
-  .seat.two {
+  .player.seat1 {
     top: -50px;
     left: 200px; }
-  .seat.three {
+  .player.seat2 {
     top: -50px;
     right: 200px; }
-  .seat.four {
+  .player.seat3 {
     right: -75px;
     top: 200px; }
-  .seat.five {
+  .player.seat4 {
     right: 200px;
     bottom: -50px; }
-  .seat.six {
+  .player.seat5 {
     left: 200px;
     bottom: -50px; }
+
+.pot {
+  position: absolute;
+  top: 150px;
+  left: 450px;
+  padding: 5px;
+  color: white;
+  font-weight: bold;
+  background-color: black;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px; }
+
+.board {
+  position: absolute;
+  top: 175px;
+  left: 300px; }
+
+.seat {
+  height: 75px;
+  width: 140px;
+  background-color: white;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  border: 1px solid black;
+  text-align: center; }
+  .seat.active {
+    background-color: black;
+    border-color: white;
+    color: white; }
+  .seat .name {
+    font-size: 20px;
+    margin-top: 15px;
+    font-weight: bold; }
+  .seat .chips {
+    font-size: 15px;
+    margin-top: 10px; }
+
+input.bet {
+  width: 50px;
+  margin: 0; }
+
+.cards {
+  font-size: 5px; }
 
 .clearfix:after {
   content: ".";

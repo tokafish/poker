@@ -37,4 +37,14 @@ class Card
   def as_json
     { :rank => rank, :suit => suit }
   end
+
+  # overriding object equality for use of cards and hands in hashes
+
+  def eql?(card)
+    rank == card.rank && suit == card.suit
+  end
+
+  def hash
+    [suit, rank].hash
+  end
 end

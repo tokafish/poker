@@ -1,3 +1,5 @@
+$stdout.sync = true
+
 require 'em-websocket'
 require 'yajl'
 require 'yajl/json_gem'
@@ -43,7 +45,7 @@ class PokerRoom
     @table.unseat_player(connection.player)
 
     if @table.playing?
-      @table.cancel_hand
+      @table.abort!
     end
 
     update_poker_room
@@ -63,6 +65,16 @@ class PokerRoom
     @connections.values.each do |connection|
       connection.send_message :command => :update_poker_room, :data => as_json(connection.player)
     end
+    broadcast_messages
+  end
+
+  def broadcast_messages
+    @connections.values.each do |connection|
+      @table.messages.each do |message|
+        connection.send_message :command => :broadcast_message, :data => message
+      end
+    end
+    @table.messages.clear
   end
 
   def connected_players

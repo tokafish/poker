@@ -14,48 +14,45 @@
   %body#ng-app{"ng-app" => "poker", "ng-controller" => "pokerController"}
     %br
     .container-fluid
-      .row-fluid{"ng-switch" => "table.state", :style => "text-align: center;"}
-        %div{"ng-switch-when" => "waiting"}
-          %h3 Waiting for a game to begin...
-        %div{"ng-switch-when" => "draw"}
-          %h3
-            Waiting for
-            %span{"ng-bind" => "active_player.name"}
-            to draw
+      .row-fluid
+        .span8
+          %h3{"ng-bind" => "tableStatus()"}
+        .span4
+          .waiting-actions{"ng-show" => "table.state == 'waiting'"}
+            %a.btn.btn-primary{"ng-click" => "sendCommand('start_hand')", "ng-show" => "seatedPlayers().length > 1"}
+              Shuffle up and deal!
+          .active-actions{"ng-show" => "current_player.state == 'active'"}
+            %form
+              %a.btn.btn-primary{"ng-click" => "sendCommand('bet', numChips)"}
+                Bet!
+              %input.bet{:type => "text", "ng-model" => "numChips", :maxlength => 5}
+              %a.btn{"ng-click" => "sendCommand('bet', 0)"} Check!
+              %a.btn{"ng-click" => "sendCommand('fold')"} Fold!
+
       .row-fluid
         .span1
         .span10
           .table
             .felt
-              .seat.one{"ng-click" => "sendCommand('choose_seat', 0)", "ng-bind" => "table.players[0].name"}
-              .seat.two{"ng-click" => "sendCommand('choose_seat', 1)", "ng-bind" => "table.players[1].name"}
-              .seat.three{"ng-click" => "sendCommand('choose_seat', 2)", "ng-bind" => "table.players[2].name"}
-              .seat.four{"ng-click" => "sendCommand('choose_seat', 3)", "ng-bind" => "table.players[3].name"}
-              .seat.five{"ng-click" => "sendCommand('choose_seat', 4)", "ng-bind" => "table.players[4].name"}
-              .seat.six{"ng-click" => "sendCommand('choose_seat', 5)", "ng-bind" => "table.players[5].name"}
+              .player{"ng-repeat" => "player in table.players", "ng-class" => "'seat' + $index"}
+                .seat{"ng-click" => "sendCommand('choose_seat', $index)", "ng-class" => "seatClass(player)"}
+                  .name{"ng-bind" => "player.name"}
+                  .chips{"ng-bind" => "player.chips"}
+                .cards
+                  .card{"ng-repeat" => "card in playerHand(player)", "ng-class" => "cardClass(card)"}
+                    %div{"ng-include" => "cardTemplate(card)"}
+              .pot{"ng-show" => "table.state != 'waiting'"}
+                %span Pot:
+                %span{"ng-bind" => "table.pot"}
+              .board
+                .cards
+                  .card{"ng-repeat" => "card in table.board", "ng-class" => "cardClass(card)"}
+                    %div{"ng-include" => "cardTemplate(card)"}
 
-        .span1
-      .row-fluid{"ng-hide" => "table.state == 'waiting'"}
-        .span1
-        .span10.cards
-          .card{"ng-repeat" => "card in current_player.hand", "ng-class" => "cardClass(card)", "ng-click" => "cardClicked(card)"}
-            %div{"ng-include" => "cardTemplate(card)", "ng-hide" => "card.selected"}
-            .card-back{"ng-show" => "card.selected"}
-              %span.middle_center
-                %img{:src => "img/back.png"}
         .span1
       .row-fluid.chat
         .span12
-          .messages
-          %form{"ng-submit" => "sendChatMessage()"}
-            %input{:type => "text", "ng-model" => "message"}
-      .row-fluid
-        .span12
-          %a.btn.btn-primary{"ng-click" => "sendCommand('start_hand')", "ng-show" => "table.state == 'waiting' && seatedPlayers().length > 1"}
-            Shuffle up and deal!
-          %a.btn.btn-primary{"ng-click" => "drawCards()", "ng-show" => "table.state == 'draw' && current_player.state == 'active'", "ng-bind" => "drawText()"}
-
-
+          .message{"ng-repeat" => "message in messages", "ng-bind" => "message"}
 
     .modal-backdrop.fade.in{"ng-hide" => "current_player"}
     .modal{"ng-hide" => "current_player"}
