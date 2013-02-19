@@ -93,6 +93,30 @@ controller = ($scope, PokerService) ->
       when "c" then "&clubs;"
       when "d" then   "&diams;"
 
+  $scope.$watch 'table.pot', (pot) ->
+    remainder = $scope.table.pot
+    chips = []
+
+    _([500, 100, 25, 10, 5, 1]).each (chipSize) ->
+      numChips = ~~(remainder / chipSize)
+      remainder %= chipSize
+
+      _(numChips).times (n) ->
+        chips.push
+          size: chipSize
+          zIndex: ~~(Math.random() * 10000) - 1
+          top: ~~(Math.random() * 100) + 50
+          left: ~~(Math.random() * 100) - 50
+
+    $scope.potChips = chips
+
+  $scope.chipStyle = (chip) ->
+    {
+      zIndex: chip.zIndex
+      top: "#{chip.top}px"
+      left: "#{chip.left}px"
+    }
+
   $scope.tableStatus = ->
     return unless $scope.table.state
 

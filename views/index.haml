@@ -50,13 +50,15 @@
                   .card{"ng-repeat" => "card in playerHand(player)", "ng-class" => "cardClass(card)"}
                     %div{"ng-include" => "cardTemplate(card)"}
               .pot{"ng-show" => "table.state != 'waiting'"}
-                %span Pot:
-                %span{"ng-bind" => "table.pot"}
+                .summary
+                  %span Pot:
+                  %span{"ng-bind" => "table.pot"}
+                .chip{"ng-repeat" => "chip in potChips", "ng-class" => "'chip' + chip.size", "ng-style" => "chipStyle(chip)"}
+                  %div{"ng-bind" => "chip.size"}
               .board
                 .cards
                   .card{"ng-repeat" => "card in table.board", "ng-class" => "cardClass(card)"}
                     %div{"ng-include" => "cardTemplate(card)"}
-
         .span1
       .chat
         .message{"ng-repeat" => "message in messages", "ng-bind" => "message"}

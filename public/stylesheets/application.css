@@ -54,14 +54,18 @@
 .pot {
   position: absolute;
   top: 300px;
-  left: 500px;
-  padding: 10px;
-  color: white;
-  font-weight: bold;
-  background-color: black;
-  border-radius: 5px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px; }
+  left: 500px; }
+  .pot .summary {
+    position: absolute;
+    padding: 10px;
+    color: white;
+    font-weight: bold;
+    background-color: black;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    text-align: center;
+    z-index: 10000; }
 
 .board {
   position: absolute;
@@ -111,6 +115,55 @@ input.bet {
 
 .diamond, .heart {
   color: red; }
+
+div.chip {
+  position: absolute;
+  width: 35px;
+  height: 35px;
+  border-radius: 150px;
+  -webkit-border-radius: 150px;
+  -moz-border-radius: 150px;
+  box-shadow: inset 0 0 1px 1px rgba(0, 0, 0, 0.1), 0 0 5px 1px rgba(90, 90, 90, 0.1), inset 0 35px 1px rgba(255, 255, 255, 0.2);
+  -moz-box-shadow: inset 0 0 1px 1px rgba(0, 0, 0, 0.1), 0 0 5px 1px rgba(90, 90, 90, 0.1), inset 0 35px 1px rgba(255, 255, 255, 0.2);
+  -webkit-box-shadow: inset 0 0 1px 1px rgba(0, 0, 0, 0.1), 0 0 5px 1px rgba(90, 90, 90, 0.1), inset 0 35px 1px rgba(255, 255, 255, 0.2);
+  border: 10px dotted white; }
+
+div.chip div {
+  font-family: Verdana;
+  text-align: center;
+  line-height: 35px;
+  font-size: 0.9em; }
+
+div.chip500 {
+  background: #f7b55e; }
+
+div.chip100 {
+  background: #333;
+  color: #eee;
+  box-shadow: inset 0 0 1px 1px rgba(0, 0, 0, 0.1), 0 0 5px 1px rgba(90, 90, 90, 0.1), inset 0 35px 1px rgba(255, 255, 255, 0.1);
+  -moz-box-shadow: inset 0 0 1px 1px rgba(0, 0, 0, 0.1), 0 0 5px 1px rgba(90, 90, 90, 0.1), inset 0 35px 1px rgba(255, 255, 255, 0.1);
+  -webkit-box-shadow: inset 0 0 1px 1px rgba(0, 0, 0, 0.1), 0 0 5px 1px rgba(90, 90, 90, 0.1), inset 0 35px 1px rgba(255, 255, 255, 0.1);
+  border: 10px dotted #cccccc; }
+
+div.chip25 {
+  background: #92ed40; }
+
+div.chip10 {
+  background: #4cc3fe; }
+
+div.chip5 {
+  background: #fd5f72; }
+
+div.chip1 {
+  background: #EEE;
+  color: #333;
+  box-shadow: inset 0 0 1px 1px rgba(0, 0, 0, 0.1), 0 0 5px 1px rgba(90, 90, 90, 0.1), inset 0 35px 1px rgba(255, 255, 255, 0.1);
+  -moz-box-shadow: inset 0 0 1px 1px rgba(0, 0, 0, 0.1), 0 0 5px 1px rgba(90, 90, 90, 0.1), inset 0 35px 1px rgba(255, 255, 255, 0.1);
+  -webkit-box-shadow: inset 0 0 1px 1px rgba(0, 0, 0, 0.1), 0 0 5px 1px rgba(90, 90, 90, 0.1), inset 0 35px 1px rgba(255, 255, 255, 0.1);
+  border: 10px dotted #222222; }
+
+div.disabled {
+  opacity: 0.4; }
 
 @font-face {
   font-family: 'Suit-Regular';
