@@ -18,7 +18,10 @@
 
 .chat {
   background-color: #CCC;
-  margin-bottom: 50px; }
+  margin-bottom: 50px;
+  height: 150px;
+  overflow: scroll;
+  padding: 10px; }
 
 .player {
   position: absolute; }
@@ -44,8 +47,8 @@
 .pot {
   position: absolute;
   top: 150px;
-  left: 450px;
-  padding: 5px;
+  left: 500px;
+  padding: 10px;
   color: white;
   font-weight: bold;
   background-color: black;

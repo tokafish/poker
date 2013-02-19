@@ -5,11 +5,15 @@
     %meta{:charset => "utf-8"}
     %link{:rel => "stylesheet", :type => "text/css", :href => "stylesheets/twitter-bootstrap/bootstrap.css"}
     %link{:rel => "stylesheet", :type => "text/css", :href => "stylesheets/application.css"}
-    %script{:type => "text/javascript", :src => "//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"}\
-    %script{:type => "text/javascript", :src => "/javascripts/jquery.flippy.min.js"}
-    %script{:type => "text/javascript", :src => "//ajax.googleapis.com/ajax/libs/angularjs/1.0.4/angular.min.js"}
-    %script{:type => "text/javascript", :src => "//ajax.googleapis.com/ajax/libs/angularjs/1.0.4/angular-sanitize.min.js"}
-    %script{:tyoe => "text/javascript", :src => "//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"}
+
+    %script{:type => "text/javascript", :src => "javascripts/jquery.min.js"}
+    %script{:type => "text/javascript", :src => "javascripts/angular/angular.js"}
+    %script{:type => "text/javascript", :src => "javascripts/angular/angular-sanitize.js"}
+    %script{:type => "text/javascript", :src => "javascripts/underscore.js"}
+    / %script{:type => "text/javascript", :src => "//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"}
+    / %script{:type => "text/javascript", :src => "//ajax.googleapis.com/ajax/libs/angularjs/1.0.4/angular.min.js"}
+    / %script{:type => "text/javascript", :src => "//ajax.googleapis.com/ajax/libs/angularjs/1.0.4/angular-sanitize.min.js"}
+    / %script{:tyoe => "text/javascript", :src => "//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"}
     %script{:type => "text/javascript", :src => "/javascripts/app.js"}
   %body#ng-app{"ng-app" => "poker", "ng-controller" => "pokerController"}
     %br
@@ -50,9 +54,8 @@
                     %div{"ng-include" => "cardTemplate(card)"}
 
         .span1
-      .row-fluid.chat
-        .span12
-          .message{"ng-repeat" => "message in messages", "ng-bind" => "message"}
+      .chat
+        .message{"ng-repeat" => "message in messages", "ng-bind" => "message"}
 
     .modal-backdrop.fade.in{"ng-hide" => "current_player"}
     .modal{"ng-hide" => "current_player"}

@@ -1,27 +1,5 @@
 @app = angular.module('poker', ['ngSanitize'])
 
-# @app.directive 'pointBoost', ->
-
-#   template: '<div class="point-boost"><span class="points-icon-large star"></span><span class="score"><strong>+{{points}}</strong></span></div>'
-#   scope: true
-#   replace: true
-#   link: (scope, element, attrs) ->
-#     scope.$on 'points:awarded', (e, val) ->
-#       scope.points = val
-
-#       children =  element.children()
-#       star = angular.element(children[0])
-#       points = angular.element(children[1])
-
-#       points.css("visibility", "visible")
-#       points.addClass("bounce-up")
-#       setTimeout(
-#         ->
-#           star.css("visibility", "visible")
-#           star.addClass("bounce-up")
-#         100
-#       )
-
 @app.service 'PokerService',
   class PokerService
     @$inject: ['$rootScope']
@@ -97,9 +75,9 @@ controller = ($scope, PokerService) ->
   $scope.tableStatus = ->
     switch $scope.table.state
       when "waiting"
-        "Waiting for hand to begin"
+        "Waiting for hand to begin..."
       else
-        "no text"
+        "Playing"
 
   $scope.seatedPlayers = ->
     _($scope.table.players).compact()
@@ -108,6 +86,10 @@ controller = ($scope, PokerService) ->
     PokerService.sendCommand
       command: command
       data: data
+
+  $scope.$watch 'table.state', (newState, previousState) ->
+    if previousState == 'waiting'
+      $scope.messages.length = 0
 
   $scope.$on "update_poker_room", (e, room) ->
     $scope.players = room.players

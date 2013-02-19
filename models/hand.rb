@@ -68,7 +68,7 @@ class Hand
       rank_grouped.flatten
     elsif paired_hand?
       sorted_pairs = rank_grouped.flatten.sort
-      sorted_pairs << (cards - sorted_pairs)
+      sorted_pairs << (cards - sorted_pairs).sort
     else
       cards.sort
     end
