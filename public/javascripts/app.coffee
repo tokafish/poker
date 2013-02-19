@@ -117,6 +117,8 @@ controller = ($scope, PokerService) ->
       left: "#{chip.left}px"
     }
 
+  seatedPlayers = -> _($scope.table.players).compact()
+
   $scope.tableStatus = ->
     return unless $scope.table.state
 
@@ -128,10 +130,8 @@ controller = ($scope, PokerService) ->
       else
         "Your turn"
     else
-      activePlayer = _($scope.seatedPlayers()).detect (player) -> player.state == 'active'
+      activePlayer = _(seatedPlayers()).detect (player) -> player.state == 'active'
       "#{activePlayer.name}'s turn"
-
-  seatedPlayers = -> _($scope.table.players).compact()
 
   $scope.canStartHand = -> seatedPlayers().length > 1
 
