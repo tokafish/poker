@@ -1,8 +1,14 @@
+.controls {
+  position: absolute;
+  top: 5px;
+  left: 10px; }
+
 .table {
-  background-color: black;
+  background-color: #ac6811;
   border-radius: 300px;
   -moz-border-radius: 300px;
   -webkit-border-radius: 300px;
+  border: 1px solid black;
   height: 500px;
   padding: 25px;
   margin-bottom: 50px; }
@@ -13,6 +19,7 @@
   border-radius: 250px;
   -moz-border-radius: 250px;
   -webkit-border-radius: 250px;
+  border: 1px solid black;
   height: 460px;
   position: relative; }
 
@@ -27,7 +34,7 @@
   position: absolute; }
   .player.seat0 {
     top: 200px;
-    left: -75px; }
+    left: -90px; }
   .player.seat1 {
     top: -50px;
     left: 200px; }
@@ -35,7 +42,7 @@
     top: -50px;
     right: 200px; }
   .player.seat3 {
-    right: -75px;
+    right: -90px;
     top: 200px; }
   .player.seat4 {
     right: 200px;
@@ -46,7 +53,7 @@
 
 .pot {
   position: absolute;
-  top: 150px;
+  top: 300px;
   left: 500px;
   padding: 10px;
   color: white;
@@ -63,13 +70,17 @@
 
 .seat {
   height: 75px;
-  width: 140px;
+  width: 165px;
   background-color: white;
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
   border-radius: 10px;
+  -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
   border: 1px solid black;
-  text-align: center; }
+  text-align: center;
+  margin-bottom: 5px; }
   .seat.unoccupied {
     cursor: pointer; }
   .seat.active {

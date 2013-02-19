@@ -18,30 +18,35 @@
   %body#ng-app{"ng-app" => "poker", "ng-controller" => "pokerController"}
     %br
     .container-fluid
-      .row-fluid
-        .span8
-          %h3{"ng-bind" => "tableStatus()"}
-        .span4
-          .waiting-actions{"ng-show" => "table.state == 'waiting'"}
-            %a.btn.btn-primary{"ng-click" => "sendCommand('start_hand')", "ng-show" => "seatedPlayers().length > 1"}
-              Shuffle up and deal!
-          .active-actions{"ng-show" => "current_player.state == 'active'"}
-            %form
+      .controls
+        %h3{"ng-bind" => "tableStatus()", :style => "margin-top: 0px;"}
+        .waiting-actions{"ng-show" => "table.state == 'waiting'"}
+          %a.btn.btn-primary{"ng-click" => "sendCommand('start_hand')", "ng-show" => "seatedPlayers().length > 1"}
+            Shuffle up and deal!
+        .active-actions{"ng-show" => "current_player.state == 'active'"}
+          %form{:style => "margin: 0;"}
+            %p
+              %a.btn{"ng-click" => "sendCommand('bet', table.to_call)", "ng-bind" => "callText()"}
+            %p
               %a.btn.btn-primary{"ng-click" => "handleBet()", "ng-bind" => "betText()"}
               %input.bet{:type => "text", "ng-model" => "numChips", :maxlength => 5}
-              %a.btn{"ng-click" => "sendCommand('bet', table.to_call)", "ng-bind" => "callText()"}
-              %a.btn{"ng-click" => "sendCommand('fold')"} Fold!
+            %p
+              %a.btn.btn-danger{"ng-click" => "sendCommand('fold')"} Fold
 
-      .row-fluid
+      .row-fluid{:style => "margin-top: 10px"}
         .span1
         .span10
           .table
             .felt
               .player{"ng-repeat" => "player in table.players", "ng-class" => "'seat' + $index"}
+                .cards{"ng-show" => "$index == 4 || $index == 5"}
+                  .card{"ng-repeat" => "card in playerHand(player)", "ng-class" => "cardClass(card)"}
+                    %div{"ng-include" => "cardTemplate(card)"}
+                .clearfix
                 .seat{"ng-click" => "sendCommand('choose_seat', $index)", "ng-class" => "seatClass(player)"}
                   .name{"ng-bind" => "player.name"}
                   .chips{"ng-bind" => "player.chips"}
-                .cards
+                .cards{"ng-show" => "$index != 4 && $index != 5"}
                   .card{"ng-repeat" => "card in playerHand(player)", "ng-class" => "cardClass(card)"}
                     %div{"ng-include" => "cardTemplate(card)"}
               .pot{"ng-show" => "table.state != 'waiting'"}

@@ -94,11 +94,15 @@ controller = ($scope, PokerService) ->
       when "d" then   "&diams;"
 
   $scope.tableStatus = ->
-    switch $scope.table.state
-      when "waiting"
-        "Waiting for hand to begin..."
-      else
-        "Playing"
+    return unless $scope.table.state
+
+    if $scope.table.state == "waiting"
+      "Waiting to start..."
+    else if $scope.current_player?.state == "active"
+      "Your action"
+    else
+      activePlayer = _($scope.seatedPlayers()).detect (player) -> player.state == 'active'
+      "#{activePlayer.name}'s action"
 
   $scope.seatedPlayers = ->
     _($scope.table.players).compact()
