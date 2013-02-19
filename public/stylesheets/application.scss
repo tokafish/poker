@@ -87,6 +87,9 @@
   border: 1px solid black;
   text-align: center;
 
+  &.unoccupied {
+    cursor: pointer;
+  }
   &.active {
     background-color: black;
     border-color: white;

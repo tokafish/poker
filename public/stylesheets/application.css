@@ -70,6 +70,8 @@
   border-radius: 10px;
   border: 1px solid black;
   text-align: center; }
+  .seat.unoccupied {
+    cursor: pointer; }
   .seat.active {
     background-color: black;
     border-color: white;

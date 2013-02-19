@@ -36,7 +36,28 @@ controller = ($scope, PokerService) ->
   $scope.connect = -> PokerService.connect $scope.myName
 
   $scope.seatClass = (player) ->
-    if player?.state == "active" then "active" else ""
+    if !player?
+      "unoccupied"
+    else if player.state == "active"
+      "active"
+    else
+      ""
+
+  betToMe = -> $scope.table?.to_call != 0
+
+  $scope.callText = ->
+    if betToMe() then "Call" else "Check"
+
+  $scope.betText = ->
+    if betToMe() then "Raise" else "Bet"
+
+  $scope.handleBet = ->
+    bet = parseInt($scope.numChips)
+    if betToMe()
+       bet += $scope.table.to_call
+
+    $scope.sendCommand('bet', bet)
+    $scope.numChips = ''
 
   $scope.playerHand = (player) ->
     return [] if !player?

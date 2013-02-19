@@ -62,10 +62,15 @@ class Table
     player.chips -= bet
     @pot += bet
 
-    raised_amount = bet - to_call.pop
+    bet_to_me = to_call.pop
+    raised_amount = bet - bet_to_me
 
     if raised_amount > 0
-      @messages << "#{player.name} raised to #{bet}"
+      if bet_to_me == 0
+        @messages << "#{player.name} bet #{bet}"
+      else
+        @messages << "#{player.name} raised to #{bet}"
+      end
 
       # other players might need to see this raise. They're not on the stack if they've previous called,
       # so check how many are in the hand that are not on the stack, ignoring the current player, and add
@@ -76,7 +81,7 @@ class Table
       to_call.map! { |bet| bet + raised_amount }
     else
       if bet > 0
-        @messages << "#{player.name} bet #{bet}"
+        @messages << "#{player.name} called"
       else
         @messages << "#{player.name} checked"
       end

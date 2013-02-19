@@ -27,10 +27,9 @@
               Shuffle up and deal!
           .active-actions{"ng-show" => "current_player.state == 'active'"}
             %form
-              %a.btn.btn-primary{"ng-click" => "sendCommand('bet', numChips)"}
-                Bet!
+              %a.btn.btn-primary{"ng-click" => "handleBet()", "ng-bind" => "betText()"}
               %input.bet{:type => "text", "ng-model" => "numChips", :maxlength => 5}
-              %a.btn{"ng-click" => "sendCommand('bet', 0)"} Check!
+              %a.btn{"ng-click" => "sendCommand('bet', table.to_call)", "ng-bind" => "callText()"}
               %a.btn{"ng-click" => "sendCommand('fold')"} Fold!
 
       .row-fluid
