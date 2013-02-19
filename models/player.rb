@@ -37,6 +37,10 @@ class Player
     @state = "playing"
   end
 
+  def to_s
+    name
+  end
+
   def as_json(viewer)
     attributes = { :id => id, :name => name, :state => state, :chips => chips }
 

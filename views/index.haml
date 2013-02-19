@@ -43,7 +43,7 @@
                   .card{"ng-repeat" => "card in playerHand(player)", "ng-class" => "cardClass(card)"}
                     %div{"ng-include" => "cardTemplate(card)"}
                 .clearfix
-                .seat{"ng-click" => "sendCommand('choose_seat', $index)", "ng-class" => "seatClass(player)"}
+                .seat{"ng-click" => "sendCommand('seat_player', $index)", "ng-class" => "seatClass(player)"}
                   .name{"ng-bind" => "player.name"}
                   .chips{"ng-bind" => "player.chips"}
                 .cards{"ng-show" => "$index != 4 && $index != 5"}

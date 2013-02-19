@@ -99,10 +99,13 @@ controller = ($scope, PokerService) ->
     if $scope.table.state == "waiting"
       "Waiting to start..."
     else if $scope.current_player?.state == "active"
-      "Your action"
+      if betToMe()
+        "#{$scope.table.to_call} to call"
+      else
+        "Your turn"
     else
       activePlayer = _($scope.seatedPlayers()).detect (player) -> player.state == 'active'
-      "#{activePlayer.name}'s action"
+      "#{activePlayer.name}'s turn"
 
   $scope.seatedPlayers = ->
     _($scope.table.players).compact()

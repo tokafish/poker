@@ -30,7 +30,7 @@ class Table
     before_transition all - :waiting => :waiting, :do => :reset, :on => :abort!
   end
 
-  VALID_COMMANDS = ["start_hand", "choose_seat", "unseat_player", "bet", "fold"].freeze
+  VALID_COMMANDS = ["start_hand", "seat_player", "unseat_player", "bet", "fold"].freeze
   NUM_PLAYERS = 6
   def initialize
     @players = NUM_PLAYERS.times.map { nil }
@@ -39,7 +39,7 @@ class Table
     super # for state_machine gem
   end
 
-  def choose_seat(player, seat)
+  def seat_player(player, seat)
     return if players.include?(player)
     @messages << "#{player.name} sat at seat #{seat + 1}"
     players[seat] ||= player
@@ -113,7 +113,6 @@ class Table
     @pot = 0
     @board = []
 
-    seated_players = @players.compact
     seated_players.each(&:play!)
 
     2.times do
@@ -169,6 +168,7 @@ class Table
       winner.chips += pot
       @messages << "#{winner.name} won #{pot} chips"
     end
+    @pot = 0
   end
 
   def winning_players
@@ -220,6 +220,10 @@ class Table
 
   def active_player
     players_in_hand.detect(&:active?)
+  end
+
+  def seated_players
+    @players.compact
   end
 
   def players_in_hand
