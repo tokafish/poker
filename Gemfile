@@ -9,6 +9,7 @@ gem "redis", :require => ["redis/connection/hiredis", "redis"]
 gem 'sass'
 gem "sinatra", :require => "sinatra/base"
 gem 'state_machine'
+gem 'therubyracer'
 gem 'thin'
 gem 'uuid'
 gem 'yajl-ruby', :require => 'yajl'
