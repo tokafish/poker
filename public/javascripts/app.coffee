@@ -131,8 +131,15 @@ controller = ($scope, PokerService) ->
       activePlayer = _($scope.seatedPlayers()).detect (player) -> player.state == 'active'
       "#{activePlayer.name}'s turn"
 
-  $scope.seatedPlayers = ->
-    _($scope.table.players).compact()
+  seatedPlayers = -> _($scope.table.players).compact()
+
+  $scope.canStartHand = -> seatedPlayers().length > 1
+
+  $scope.emptySeatText = ->
+    if _.chain(seatedPlayers()).pluck("id").contains($scope.current_player.id).value()
+      "Empty"
+    else
+      "Choose this Seat"
 
   $scope.sendCommand = (command, data) ->
     PokerService.sendCommand

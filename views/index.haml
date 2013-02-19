@@ -21,7 +21,7 @@
       .controls
         %h3{"ng-bind" => "tableStatus()", :style => "margin-top: 0px;"}
         .waiting-actions{"ng-show" => "table.state == 'waiting'"}
-          %a.btn.btn-primary{"ng-click" => "sendCommand('start_hand')", "ng-show" => "seatedPlayers().length > 1"}
+          %a.btn.btn-primary{"ng-click" => "sendCommand('start_hand')", "ng-show" => "canStartHand()"}
             Shuffle up and deal!
         .active-actions{"ng-show" => "current_player.state == 'active'"}
           %form{:style => "margin: 0;"}
@@ -45,11 +45,12 @@
                 .clearfix
                 .seat{"ng-click" => "sendCommand('seat_player', $index)", "ng-class" => "seatClass(player)"}
                   .name{"ng-bind" => "player.name"}
+                  .empty{"ng-hide" => "player.name", "ng-bind" => "emptySeatText()"}
                   .chips{"ng-bind" => "player.chips"}
                 .cards{"ng-show" => "$index != 4 && $index != 5"}
                   .card{"ng-repeat" => "card in playerHand(player)", "ng-class" => "cardClass(card)"}
                     %div{"ng-include" => "cardTemplate(card)"}
-              .pot{"ng-show" => "table.state != 'waiting'"}
+              .pot{"ng-show" => "table.state && table.state != 'waiting'"}
                 .summary
                   %span Pot:
                   %span{"ng-bind" => "table.pot"}

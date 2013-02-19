@@ -91,6 +91,9 @@
     background-color: black;
     border-color: white;
     color: white; }
+  .seat .empty {
+    margin-top: 25px;
+    font-style: italic; }
   .seat .name {
     font-size: 20px;
     margin-top: 15px;
