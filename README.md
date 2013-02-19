@@ -3,4 +3,8 @@ poker
 
 A simple app, using websockets, to play texas hold-em poker.
 
-To start it, run 'foreman start'
+To use it:
+
+bundle
+foreman start
+connect to http://localhost:9292
