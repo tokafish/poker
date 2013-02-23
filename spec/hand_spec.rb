@@ -183,4 +183,17 @@ describe Hand do
       end
     end
   end
+
+  describe "json representation" do
+    subject(:json) { royal_flush.as_json }
+
+    its(:length) { should == 5 }
+
+    it "has the suit and rank of each card" do
+      royal_flush.cards.each_with_index do |card, index|
+        json[index][:suit].should == card.suit
+        json[index][:rank].should == card.rank
+      end
+    end
+  end
 end

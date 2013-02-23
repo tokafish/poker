@@ -91,5 +91,5 @@ class PokerRoom
 end
 
 EM.run do
- PokerRoom.new.start
+  PokerRoom.new.start
 end
