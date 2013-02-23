@@ -41,11 +41,11 @@ class Player
     name
   end
 
-  def as_json(viewer)
+  def as_json(show_hand = false)
     attributes = { :id => id, :name => name, :state => state, :chips => chips }
 
     if playing?
-      attributes[:cards] = if viewer.id == id
+      attributes[:cards] = if show_hand
         cards && cards.map(&:as_json)
       else
         cards && cards.map { nil }

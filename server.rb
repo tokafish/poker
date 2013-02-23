@@ -83,7 +83,7 @@ class PokerRoom
 
   def as_json(viewer)
     {
-      :players => connected_players.map { |p| p.as_json(viewer) },
+      :players => connected_players.map { |p| p.as_json },
       :table => @table.as_json(viewer),
       :current_player => viewer.as_json(viewer)
     }

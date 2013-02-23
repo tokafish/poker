@@ -241,9 +241,16 @@ class Table
   end
 
   def as_json(viewer)
+    player_json = players.map do |p|
+      if p
+        show_hand = (waiting? || p.id == viewer.id)
+        p.as_json(show_hand)
+      end
+    end
+
     {
       :state => state,
-      :players => players.map { |p| p && p.as_json(viewer) },
+      :players => player_json,
       :to_call => to_call && to_call.first,
       :board => board.map(&:as_json),
       :pot => pot
