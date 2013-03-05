@@ -3,18 +3,8 @@
   %head
     %title Poker!
     %meta{:charset => "utf-8"}
-    %link{:rel => "stylesheet", :type => "text/css", :href => "stylesheets/twitter-bootstrap/bootstrap.css"}
-    %link{:rel => "stylesheet", :type => "text/css", :href => "stylesheets/application.css"}
-
-    %script{:type => "text/javascript", :src => "javascripts/jquery.min.js"}
-    %script{:type => "text/javascript", :src => "javascripts/angular/angular.js"}
-    %script{:type => "text/javascript", :src => "javascripts/angular/angular-sanitize.js"}
-    %script{:type => "text/javascript", :src => "javascripts/underscore.js"}
-    / %script{:type => "text/javascript", :src => "//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"}
-    / %script{:type => "text/javascript", :src => "//ajax.googleapis.com/ajax/libs/angularjs/1.0.4/angular.min.js"}
-    / %script{:type => "text/javascript", :src => "//ajax.googleapis.com/ajax/libs/angularjs/1.0.4/angular-sanitize.min.js"}
-    / %script{:tyoe => "text/javascript", :src => "//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"}
-    %script{:type => "text/javascript", :src => "/javascripts/app.js"}
+    = stylesheet_link_tag :application
+    = javascript_include_tag :application
   %body#ng-app{"ng-app" => "poker", "ng-controller" => "pokerController"}
     %br
     .container-fluid

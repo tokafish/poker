@@ -3,7 +3,7 @@ $stdout.sync = true
 require 'em-websocket'
 require 'yajl'
 require 'yajl/json_gem'
-require File.join(File.dirname(__FILE__), 'models', 'table')
+require File.join(File.dirname(__FILE__), 'app', 'models', 'table')
 
 class PokerConnection
   attr_accessor :player, :websocket

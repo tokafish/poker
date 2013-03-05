@@ -65,10 +65,10 @@ controller = ($scope, PokerService) ->
 
   $scope.cardTemplate = (card) ->
     template = card?.rank || "back"
-    "/cards/#{template}.html"
+    "/assets/cards/#{template}.html"
 
   $scope.cardImage = (card) ->
-    "/img/faces/#{card.rank}/#{card.suit}.png"
+    "/assets/faces/#{card.rank}/#{card.suit}.png"
 
   $scope.cardClass = (card) ->
     switch card?.suit
